@@ -99,15 +99,13 @@ router.post('/save', function(req, res) {
 //=======================================================================================
 router.get('/delete/:id', function(req, res) {
 
-  console.log('ID is getting read for delete' + req.params.id);
-
-  console.log('Able to activate delete function.');
+  console.log(`ID selected for deletion :  ${req.params.id}`);
 
   Article.findOneAndRemove({'_id': req.params.id}, function (err, offer) {
     if (err) {
-      console.log('Not able to delete:' + err);
+      console.log(`Error detected : ${err}`);
     } else {
-      console.log('Able to delete, Yay');
+      console.log(`Delete record :  ${req.params.id}`);
     }
     res.redirect('/savedarticles');
   });

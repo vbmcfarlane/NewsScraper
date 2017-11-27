@@ -38,18 +38,13 @@ const routes = require('./controllers/controller.js');
 app.use('/', routes);
 // Connect to localhost if not a production environment
 if(process.env.NODE_ENV == 'production'){
-  mongoose.connect('mongodb://heroku_60zpcwg0:ubn0n27pi2856flqoedo9glvh8@ds119578.mlab.com:19578/heroku_60zpcwg0');
+	mongoose.connect('mongodb://heroku_b9bs9537:iTswssyq8gDxG2OPOymy2L3Zvsvw5b2u@ds113566.mlab.com:13566/heroku_b9bs9537');
 }
 else{
 		  mongoose.connect('mongodb://localhost/NYTScraper', {
 		  useMongoClient: true
 		});
 }
-
-// mongoose.connect('mongodb://localhost/NYTScraper', {
-//   useMongoClient: true
-// });
-//mongoose.connect('mongodb://heroku_b9bs9537:<dbpassword>@ds113566.mlab.com:13566/heroku_b9bs9537');
 
 const db = mongoose.connection;
 
