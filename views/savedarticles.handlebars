@@ -89,11 +89,11 @@ $(document).on("click", "#modalbutton", function() {
     url: "/articles/" + thisId
   })
     .done(function(data) {
-      console.log(data);
+     // console.log(data);
       // Placeholder for notes
       $("#notes").append("<p id='actualnotes'></p>");
       if (data.notes) {
-        $("#actualnotes").append("<ul id='notelist'>");
+        $("#actualnotes").append("<ul id='notelist' >");
           for (var i = 0; i < data.notes.length; i++) {
             $('#notelist').append("<li id='" + data.notes[i]._id + "'>" + data.notes[i].body + " " +
             "<button data-id='" + data.notes[i]._id +
@@ -126,7 +126,7 @@ $(document).on("click", "#savenote", function() {
     .done(function(data) {
       $("#notelist").empty();
       for (var i = 0; i < data.notes.length; i++) {
-        $("#notelist").append("<li id='" + data.notes[i]._id + "'>" + data.notes[i].body + " " + "<button data-id='" + data.notes[i]._id +
+        $("#notelist").append("<li id='" + data.notes[i]._id + "' 'style= 'color: #000000;'>" + data.notes[i].body + " " + "<button data-id='" + data.notes[i]._id +
         "' id='deletenote'>X</button></li>");
       }
     });

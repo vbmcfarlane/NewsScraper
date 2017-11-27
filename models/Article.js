@@ -6,9 +6,18 @@ var Schema = mongoose.Schema;
 // Create article schema
 var ArticleSchema = new Schema({
   // title is a required string
+
   title: {
     type: String,
     required: true
+  },
+  byline: {
+    type: String,
+    required: false
+  },
+  summary: {
+    type: String,
+    required: false
   },
   // link is a required string
   // todo save summary paragraph instead of link

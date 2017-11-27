@@ -44,13 +44,12 @@ router.post('/scrape', function(req, res) {
     // Array of scraped Articles
     let scrapedArticles = {};
     // Now, we grab every h2 within an article tag, and do the following:
-    $('article h2').each(function(i, element) {
-
-      // Setup Objects of scraped Articles
-      let result = {};
-
-      result.title = $(this).children('a').text();
-      result.link = $(this).children('a').attr('href');
+    $('article.story').each(function (i, element) {
+        var result = {};
+        result.title    = $(this).children('h2').text().trim();S
+        result.byline   = $(this).children('p.byline').text().trim();
+        result.summary  = $(this).children('p.summary').text().trim();
+        result.link     = $(this).children('h2').children('a').attr('href');
       if(result.title !==' '){
       scrapedArticles[i] = result;
       }
@@ -71,17 +70,18 @@ router.post('/save', function(req, res) {
 
   console.log('This is the title: ' + req.body.title);
 
-  var newArticleObject = {};
+  var articleObject = {};
 
-  newArticleObject.title = req.body.title;
+  articleObject.title   = req.body.title;
+  articleObject.byline  = req.body.byline;
+  articleObject.summary = req.body.summary;
+  articleObject.link    = req.body.link;
 
-  newArticleObject.link = req.body.link;
+  var entry = new Article(articleObject);
 
-  var entry = new Article(newArticleObject);
+  console.log(`Saving article:  ${entry}`);
 
-  console.log('We can save the article: ' + entry);
-
-  // Now, save that entry to the db
+  // Now, save that entry to the d
   entry.save(function(err, doc) {
     // Log any errors
     if (err) {
