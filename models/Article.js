@@ -9,7 +9,8 @@ var ArticleSchema = new Schema({
 
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   byline: {
     type: String,
@@ -23,7 +24,8 @@ var ArticleSchema = new Schema({
   // todo save summary paragraph instead of link
   link: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   // Saves array of notes.
   notes: [{

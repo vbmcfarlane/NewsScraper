@@ -46,7 +46,7 @@ footer {
     background-position: center;
     background-image: url('../images/newspaper.png');
     background-repeat: no-repeat;
-    background-color: lightblue;
+    background-color: transparent;
     height:730px;
     width: 100%;
 }

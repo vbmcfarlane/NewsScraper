@@ -1,0 +1,19 @@
+//ES6
+class car {
+	consructor( make, year, horn){
+	this.make = make;
+	this.model = model;
+	this.width = year;
+	this.horn = horn;
+	}
+	Go() {
+	return console.log(` ${this.year} ${this.make} / ${this.model}  is driving`);
+	}
+
+	Stop() {
+	return console.log(` ${this.year} ${this.make} / ${this.model}  is stopped`);
+	}
+
+	Honk() console.log(`Beep Beep!`);
+	}
+}

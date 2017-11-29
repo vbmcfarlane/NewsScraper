@@ -3,7 +3,7 @@ const router = express.Router();
 const request = require('request');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
-
+console.log('Running ********controller.js********');
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 
@@ -11,12 +11,13 @@ let Note = require('../models/Note.js');
 let Article = require('../models/Article.js');
 
 router.get('/', function(req, res) {
+  console.log('Running ********controller Router.get (/ ********');
   res.render('index');
 });
-
+//===============================================================================================
 // This will get the articles scraped and saved in db and show them in list.
 router.get('/savedarticles', function(req, res) {
-
+ console.log('Running ********controller Router.get (/savedarticles ********');
   // Grab every doc in the Articles array
   Article.find({}, function(error, doc) {
     // Log any errors
@@ -32,10 +33,10 @@ router.get('/savedarticles', function(req, res) {
     }
   });
 });
-
+//===============================================================================================
 // A GET request to scrape the echojs website
 router.post('/scrape', function(req, res) {
-
+ console.log(`Running ********controller Router.get ('/scrape')********`); 
   // First, we grab the body of the html with request
   request('http://www.nytimes.com/', function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -45,19 +46,23 @@ router.post('/scrape', function(req, res) {
     let scrapedArticles = {};
     // Now, we grab every h2 within an article tag, and do the following:
     $('article.story').each(function (i, element) {
-        var result = {};
-        result.title    = $(this).children('h2').text().trim();S
+        let result = {};
+        result.title    = $(this).children('h2').text().trim();
         result.byline   = $(this).children('p.byline').text().trim();
         result.summary  = $(this).children('p.summary').text().trim();
         result.link     = $(this).children('h2').children('a').attr('href');
-      if(result.title !==' '){
+      // if(result.title.trim() !==''){
+      if(result.title){
+        console.log(`Value of title : ${result.title} `);
       scrapedArticles[i] = result;
+      } else{
+        console.log(` Title empty skipping to next record`);
       }
     });
 
-    console.log(`Scraped Articles object built nicely:  ${scrapedArticles}`);
+    console.log(`Scraped Articles objects:  ${scrapedArticles}`);
 
-    var hbsArticleObject = {
+    let hbsArticleObject = {
         articles: scrapedArticles
     };
 
@@ -67,17 +72,17 @@ router.post('/scrape', function(req, res) {
 });
 //=====================================================================================
 router.post('/save', function(req, res) {
-
+ console.log(`Running ********controller Router.get ('/save'********`);
   console.log('This is the title: ' + req.body.title);
 
-  var articleObject = {};
+  let articleObject = {};
 
   articleObject.title   = req.body.title;
   articleObject.byline  = req.body.byline;
   articleObject.summary = req.body.summary;
   articleObject.link    = req.body.link;
 
-  var entry = new Article(articleObject);
+  let entry = new Article(articleObject);
 
   console.log(`Saving article:  ${entry}`);
 
@@ -94,11 +99,10 @@ router.post('/save', function(req, res) {
   });
 
   res.redirect('/savedarticles');
-
 });
 //=======================================================================================
 router.get('/delete/:id', function(req, res) {
-
+  console.log("Running ********controller router.get('/delete/:id*findOneAndRemove*******");
   console.log(`ID selected for deletion :  ${req.params.id}`);
 
   Article.findOneAndRemove({'_id': req.params.id}, function (err, offer) {
@@ -112,10 +116,8 @@ router.get('/delete/:id', function(req, res) {
 });
 //=======================================================================================
 router.get('/notes/:id', function(req, res) {
-
+  console.log("Running ********controller router.get('/notes/:id*findOneAndRemove*******");
   console.log('ID is getting read for delete' + req.params.id);
-
-  console.log('Able to activate delete function.');
 
   Note.findOneAndRemove({'_id': req.params.id}, function (err, doc) {
     if (err) {
@@ -129,7 +131,7 @@ router.get('/notes/:id', function(req, res) {
 //========================================================================================
 // This will grab an article by it's ObjectId
 router.get('/articles/:id', function(req, res) {
-
+  console.log("Running ********controller router.get('/articles/:id'* findOne *******");
   console.log('ID is getting read' + req.params.id);
 
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
@@ -150,9 +152,9 @@ router.get('/articles/:id', function(req, res) {
 //========================================================================================
 // Create a new note or replace an existing note
 router.post('/articles/:id', function(req, res) {
-
+  console.log("Running ********controller post('/articles/:id' * findOne*******");
   // Create a new note and pass the req.body to the entry
-  var newNote = new Note(req.body);
+  let newNote = new Note(req.body);
   // And save the new note the db
   newNote.save(function(error, doc) {
     // Log any errors

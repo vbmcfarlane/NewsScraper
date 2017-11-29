@@ -8,7 +8,7 @@
         <span class='icon-bar'></span>
         <span class='icon-bar'></span>
       </button>
-      <a class='navbar-brand' style= 'color: white;' href='#'>New York Times Scraper</a>
+      {{!-- <a class='navbar-brand' style= 'color: white;' href='#'>New York Times Scraper</a> --}}
     </div>
     <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
       <ul class='nav navbar-nav'>
@@ -24,7 +24,8 @@
 <div class='container'>
   <div class='row'>
     <div class='col-md-12'>
-      <div class='jumbotron'>
+      <div class="jumbotron jumbotron-fluid">
+        <object type="text/html" data="https://www.nytimes.com" style="width:100%; height:100%"></object>
       </div>
     </div>
   </div>
@@ -77,13 +78,16 @@
 
 <!--  -->
 <script>
+
+console.log("Running savedarticles script file ");
 $(document).on("click", "#modalbutton", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the button tag
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   $("#articleID").text(thisId);
   //Ajax call for the Articles
+  console.log("Running savedarticles script ajax get articles ");
   $.ajax({
     method: "GET",
     url: "/articles/" + thisId
@@ -94,7 +98,7 @@ $(document).on("click", "#modalbutton", function() {
       $("#notes").append("<p id='actualnotes'></p>");
       if (data.notes) {
         $("#actualnotes").append("<ul id='notelist' >");
-          for (var i = 0; i < data.notes.length; i++) {
+          for (let i = 0; i < data.notes.length; i++) {
             $('#notelist').append("<li id='" + data.notes[i]._id + "'>" + data.notes[i].body + " " +
             "<button data-id='" + data.notes[i]._id +
             "' id='deletenote'>X</button></li>");
@@ -112,8 +116,9 @@ $(document).on("click", "#modalbutton", function() {
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   // Run a POST request to change the note, using what's entered in the inputs
+  console.log("Running savedarticles scriptajax post articles file ");
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
@@ -125,7 +130,7 @@ $(document).on("click", "#savenote", function() {
     // With that done
     .done(function(data) {
       $("#notelist").empty();
-      for (var i = 0; i < data.notes.length; i++) {
+      for (let i = 0; i < data.notes.length; i++) {
         $("#notelist").append("<li id='" + data.notes[i]._id + "' 'style= 'color: #000000;'>" + data.notes[i].body + " " + "<button data-id='" + data.notes[i]._id +
         "' id='deletenote'>X</button></li>");
       }
@@ -136,8 +141,9 @@ $(document).on("click", "#savenote", function() {
 // When you click the deletenote button
 $(document).on("click", "#deletenote", function() {
   // Grab the id associated with the note
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   // Run a POST request to delete the note
+  console.log("Running savedarticles scriptajax get /notes/ file ");
   $.ajax({
     method: "GET",
     url: "/notes/" + thisId,
